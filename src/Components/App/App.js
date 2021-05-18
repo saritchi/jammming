@@ -1,3 +1,6 @@
+import SearchBar from "../SearchBar";
+import SearchResults from "../SearchResults";
+import Playlist from "../Playlist";
 import './App.css';
 
 function App() {
