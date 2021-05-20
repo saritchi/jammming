@@ -1,7 +1,7 @@
 let accessToken = undefined;
 let expiresIn = undefined;
-const clientId = '3e6c5f7fdc2f4ac7973ee5f586321e19';
-const redirectURI = 'http://srjam.surge.sh/';
+const clientId = '';
+const redirectURI = 'http://srjammming.surge.sh/';
 const spotifyURL = `https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientId}&redirect_uri=${redirectURI}`;
 
 const Spotify = {
