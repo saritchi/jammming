@@ -5,29 +5,15 @@ import Spotify from "../../util/Spotify"
 import './App.css';
 import React from "react";
 
+Spotify.getAccessToken();
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: [{
-        name: "Wet Dreamz",
-        artist: "J Cole",
-        album: "2014 Forest Hills Drive",
-        id: "3"
-      }],
-      playlistName: "2021 Jams",
-      playlistTracks: [{
-        name: "One More Time",
-        artist: "Daft Punk",
-        album: "Discovery",
-        id: "1"
-      },
-      {
-        name: "Digital Love",
-        artist: "Daft Punk",
-        album: "Discovery",
-        id: "3"
-      }]
+      searchResults: [],
+      playlistName: "My Playlist",
+      playlistTracks: []
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -58,10 +44,18 @@ class App extends React.Component {
 
   savePlaylist() {
     const trackURIs = this.state.playlistTracks.map(playlistTrack => playlistTrack.uri);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+      this.setState({
+        playlistName: 'New Playlist',
+        playlistTracks: []
+      })
+    })
   }
 
   search(term) {
-    this.setState({searchResults: Spotify.search(term)});
+    Spotify.search(term).then(searchResults => {
+      this.setState({searchResults: searchResults});
+    });
   }
 
   render(){
