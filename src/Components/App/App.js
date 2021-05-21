@@ -6,6 +6,7 @@ import './App.css';
 import React from "react";
 
 Spotify.getAccessToken();
+const audio = new Audio();
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends React.Component {
     this.state = {
       searchResults: [],
       playlistName: "My Playlist",
-      playlistTracks: []
+      playlistTracks: [],
+      playing: false
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -58,6 +60,11 @@ class App extends React.Component {
     });
   }
 
+  // playPreview(url, ) {
+  //   const audio = new Audio(url);
+  //   audio.play();
+  // }
+
   render(){
     return (
       <div>
@@ -65,7 +72,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} playing={this.state.playing}/>
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist}/>
           </div>
         </div>
