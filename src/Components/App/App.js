@@ -1,6 +1,7 @@
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
+import Player from "../Player/Player"
 import Spotify from "../../util/Spotify"
 import './App.css';
 import React from "react";
@@ -21,7 +22,8 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
-    this.listenTrack = this.listenTrack.bind(this)
+    this.listenTrack = this.listenTrack.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
   }
 
   addTrack(track) {
@@ -69,6 +71,10 @@ class App extends React.Component {
     audio.play();
   }
 
+  changeVolume(value) {
+    audio.volume = value / 100;
+  }
+
   render(){
     return (
       <div>
@@ -79,6 +85,9 @@ class App extends React.Component {
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} onListen={this.listenTrack}/>
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onListen={this.listenTrack}/>
           </div>
+        </div>
+        <div className="App-player">
+          <Player onVolume={this.changeVolume}/>
         </div>
       </div>
     );
