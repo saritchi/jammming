@@ -6,7 +6,7 @@ import './App.css';
 import React from "react";
 
 Spotify.getAccessToken();
-const audio = new Audio();
+let audio = new Audio();
 
 class App extends React.Component {
   constructor(props) {
@@ -15,13 +15,13 @@ class App extends React.Component {
       searchResults: [],
       playlistName: "My Playlist",
       playlistTracks: [],
-      playing: false
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.listenTrack = this.listenTrack.bind(this)
   }
 
   addTrack(track) {
@@ -60,10 +60,14 @@ class App extends React.Component {
     });
   }
 
-  // playPreview(url, ) {
-  //   const audio = new Audio(url);
-  //   audio.play();
-  // }
+  listenTrack(url) {
+    if(audio.src != null){
+      audio.pause();
+      audio.src = null
+    }
+    audio.src = url;
+    audio.play();
+  }
 
   render(){
     return (
@@ -72,8 +76,8 @@ class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} playing={this.state.playing}/>
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist}/>
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} onListen={this.listenTrack}/>
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onListen={this.listenTrack}/>
           </div>
         </div>
       </div>
