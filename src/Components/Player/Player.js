@@ -6,17 +6,31 @@ class Player extends React.Component {
     constructor(props){
         super(props)
         this.changeVolume = this.changeVolume.bind(this)
+        this.pausePlay = this.pausePlay.bind(this)
+    }
+
+    renderButton() {
+        if(this.props.isPause) {
+            return <FontAwesome className="Player-Button" name="play-circle" size="2x" onClick={this.pausePlay}/>
+        } else {
+            return <FontAwesome className="Player-Button" name="pause-circle" size="2x" onClick={this.pausePlay}/>
+        }
     }
 
     changeVolume(event) {
         console.log(event)
         this.props.onVolume(event.target.value)
     }
+
+    pausePlay(){
+        this.props.onPausePlay()
+    }
+
     render() {
         return (
             <div className="Player">
                 <div className="play player-item">
-                    <FontAwesome className="Player-Button" name="play-circle" size="2x"/>
+                    {this.renderButton()}
                 </div>
                 <div className="volume player-item">
                     <input onInput={this.changeVolume} className="Player-Volume" type="range" min="0" max="100"/>

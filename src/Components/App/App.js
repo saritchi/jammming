@@ -16,7 +16,9 @@ class App extends React.Component {
       searchResults: [],
       playlistName: "My Playlist",
       playlistTracks: [],
+      pause: false
     }
+    this.pausePlayTrack = this.pausePlayTrack.bind(this);
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
@@ -71,6 +73,16 @@ class App extends React.Component {
     audio.play();
   }
 
+  pausePlayTrack(){
+    if(!this.state.pause){
+      audio.pause();
+      this.setState({pause: true})
+    } else {
+      audio.play();
+      this.setState({pause: false})
+    }
+  }
+
   changeVolume(value) {
     audio.volume = value / 100;
   }
@@ -87,7 +99,7 @@ class App extends React.Component {
           </div>
         </div>
         <div className="App-player">
-          <Player onVolume={this.changeVolume}/>
+          <Player onVolume={this.changeVolume} onPausePlay={this.pausePlayTrack} isPause={this.state.pause}/>
         </div>
       </div>
     );
