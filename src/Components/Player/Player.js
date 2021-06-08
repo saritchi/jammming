@@ -22,11 +22,6 @@ class Player extends React.Component {
         this.setState({trackProgress: event.target.value})
     }
 
-    // renderProgress(value) {
-    //     console.log(value)
-    //     return <input className="progress-slider" type="range" value={`${value}`} onChange={this.handleChange()} min="0" max="30.000000"/>
-    // }
-
     changeVolume(event) {
         console.log(event)
         this.props.onVolume(event.target.value)
@@ -49,7 +44,6 @@ class Player extends React.Component {
                     {this.props.currentTime}
                 </div>
                 <div className="slider player-item">
-                    {/* {this.renderProgress(this.props.trackProgress)} */}
                     <input id="progress" className="progress-slider" type="range" value={this.props.trackProgress} onChange={this.handleChange} min="0" max="30.000000" step="any"/>
                 </div>
                 <div className="duration player-item">

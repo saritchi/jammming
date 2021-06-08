@@ -86,7 +86,6 @@ class App extends React.Component {
     const progress = `${minutes}:${seconds.substr(-2)}`
     console.log(progress)
     this.setState({currentTime: progress, trackProgress: audio.currentTime})
-    // console.log(`Track progress: ${this.state.trackProgress}`)
     if(audio.currentTime === audio.duration){
       this.setState({pause: false})
       this.timer(false);
