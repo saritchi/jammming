@@ -7,6 +7,7 @@ class Player extends React.Component {
         super(props)
         this.changeVolume = this.changeVolume.bind(this)
         this.pausePlay = this.pausePlay.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     renderButton() {
@@ -16,6 +17,15 @@ class Player extends React.Component {
             return <FontAwesome className="Player-Button" name="pause-circle" size="2x" onClick={this.pausePlay}/>
         }
     }
+
+    handleChange(event) {
+        this.setState({trackProgress: event.target.value})
+    }
+
+    // renderProgress(value) {
+    //     console.log(value)
+    //     return <input className="progress-slider" type="range" value={`${value}`} onChange={this.handleChange()} min="0" max="30.000000"/>
+    // }
 
     changeVolume(event) {
         console.log(event)
@@ -36,10 +46,11 @@ class Player extends React.Component {
                     <input onInput={this.changeVolume} className="Player-Volume" type="range" min="0" max="100"/>
                 </div>
                 <div className="progress player-item">
-                    0:00
+                    {this.props.currentTime}
                 </div>
                 <div className="slider player-item">
-                    <input className="progress-slider" type="range" min="0" max="30040.816"/>
+                    {/* {this.renderProgress(this.props.trackProgress)} */}
+                    <input id="progress" className="progress-slider" type="range" value={this.props.trackProgress} onChange={this.handleChange} min="0" max="30.000000" step="any"/>
                 </div>
                 <div className="duration player-item">
                     0:30

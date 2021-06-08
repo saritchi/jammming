@@ -8,6 +8,7 @@ import React from "react";
 
 Spotify.getAccessToken();
 let audio = new Audio();
+let intervalRef;
 
 class App extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class App extends React.Component {
       searchResults: [],
       playlistName: "My Playlist",
       playlistTracks: [],
-      pause: false
+      pause: false,
+      currentTime: "0:00",
+      trackProgress: 0
     }
     this.pausePlayTrack = this.pausePlayTrack.bind(this);
     this.addTrack = this.addTrack.bind(this);
@@ -26,7 +29,10 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.listenTrack = this.listenTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
+    this.updateTime = this.updateTime.bind(this);
+    this.timer = this.timer.bind(this);
   }
+
 
   addTrack(track) {
     if(this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)){
@@ -71,13 +77,39 @@ class App extends React.Component {
     }
     audio.src = url;
     audio.play();
+    this.timer(true);
+  }
+
+  updateTime(){
+    const minutes = Math.floor(audio.currentTime / 60);
+    const seconds = "0" +  Math.floor(audio.currentTime - minutes * 60);
+    const progress = `${minutes}:${seconds.substr(-2)}`
+    console.log(progress)
+    this.setState({currentTime: progress, trackProgress: audio.currentTime})
+    // console.log(`Track progress: ${this.state.trackProgress}`)
+    if(audio.currentTime === audio.duration){
+      this.setState({pause: false})
+      this.timer(false);
+    }
+  }
+
+  timer(time){
+    if(time) {
+      clearInterval(this.updateTime)
+      intervalRef = setInterval(this.updateTime, 100)
+    } else {
+      clearInterval(intervalRef)
+    }
+
   }
 
   pausePlayTrack(){
     if(!this.state.pause){
       audio.pause();
+      this.timer(false);
       this.setState({pause: true})
     } else {
+      this.timer(true);
       audio.play();
       this.setState({pause: false})
     }
@@ -99,7 +131,7 @@ class App extends React.Component {
           </div>
         </div>
         <div className="App-player">
-          <Player onVolume={this.changeVolume} onPausePlay={this.pausePlayTrack} isPause={this.state.pause}/>
+          <Player onVolume={this.changeVolume} onPausePlay={this.pausePlayTrack} isPause={this.state.pause} currentTime={this.state.currentTime} trackProgress={this.state.trackProgress}/>
         </div>
       </div>
     );
